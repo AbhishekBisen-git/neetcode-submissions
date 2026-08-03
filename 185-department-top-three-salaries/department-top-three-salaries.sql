@@ -1,14 +1,7 @@
-WITH employee_department AS
-    (
-    SELECT d.id, 
-        d.name AS Department, 
-        salary AS Salary, 
-        e.name AS Employee, 
-        DENSE_RANK()OVER(PARTITION BY d.id ORDER BY salary DESC) AS rnk
-    FROM Department d
-    JOIN Employee e
-    ON d.id = e.departmentId
-    )
-SELECT Department, Employee, Salary
-FROM employee_department
-WHERE rnk <= 3
+select department as Department , name as Employee , salary as Salary from (
+select b.name as department , a.name , a.salary 
+, dense_rank() over (partition by b.name order by a.salary desc) as 'r'
+from employee a left join department b on
+a.departmentId = b.id) 
+abc where r<=3
+ 
