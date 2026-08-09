@@ -1,15 +1,11 @@
-select  
-
-id , 
-case
-when  p_id is null then 'Root' 
-when id not in ( select distinct p_id from tree) then 'Leaf' 
-when id in ( select distinct p_id from tree) then 'Inner' 
-else 'Leaf'
-
-end as type
-
-
-
-from
-tree
+SELECT
+    a.id,
+    CASE
+        WHEN a.p_id IS NULL THEN 'Root'
+        WHEN COUNT(b.id) > 0 THEN 'Inner'
+        ELSE 'Leaf'
+    END AS type
+FROM Tree a
+LEFT JOIN Tree b
+    ON a.id = b.p_id
+GROUP BY a.id, a.p_id;
