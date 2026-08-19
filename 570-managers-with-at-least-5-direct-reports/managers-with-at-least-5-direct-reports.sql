@@ -1,10 +1,9 @@
-select name from 
-(select 
-a.name ,  count(a.id) as cnt
+select 
+a.name
 from
-employee a
-inner join
-employee b  on 
+
+employee a inner join employee b
+on
 a.id = b.managerId
-group by a.id) abc
-where abc.cnt >=5
+group by a.id
+having count(a.id)>=5
