@@ -1,15 +1,13 @@
-select A.Department , A.Employee , A.Salary
-from
-(select 
+select Department , Employee , Salary from 
+(select
 
-department.name as Department,
-employee.name as Employee,
-employee.salary as Salary,
-dense_rank() over (partition by department.name order by employee.salary desc) as 'r'
+b.name as Department,
+a.name as Employee,
+a.salary as Salary ,
+dense_rank() over (partition by b.name order by salary desc) as rnk 
 
-
-from employee
-inner join department on 
-employee.departmentId = department.id
-) A
-where A.r=1
+from employee a left join department b
+on
+a.departmentId = b.id
+)abc
+where abc.rnk = 1
