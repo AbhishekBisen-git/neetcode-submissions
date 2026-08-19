@@ -1,10 +1,7 @@
-select 
-round(count(distinct a.player_id)/(select count(distinct player_id) from activity),2) as fraction
-from activity a join activity b 
-on a.event_date = date_add(b.event_date,interval -1 day)
-and a.player_id = b.player_id
-and a.event_date = (
-    SELECT MIN(event_date)
-    FROM Activity
-    WHERE player_id = a.player_id
-)
+select round(sum(abc.fraction)/(select count(distinct player_id) from Activity),2) as fraction from
+(select  
+
+case when datediff (lag(event_date,1) over (partition by player_id order by event_date asc),event_date) = -1  and row_number() over (partition by player_id order by event_date asc) = 2 then 1 else 0 end  as fraction
+from Activity
+) abc
+
