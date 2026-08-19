@@ -1,10 +1,13 @@
-SELECT (
-    SELECT DISTINCT salary
-    FROM (
-        SELECT 
-            salary,
-            DENSE_RANK() OVER (ORDER BY salary DESC) as rnk
-        FROM Employee
-    ) AS RankedSalaries
-    WHERE rnk = 2
-) AS SecondHighestSalary;
+select (
+select
+
+distinct salary as SecondHighestSalary 
+from
+
+(select 
+salary , 
+dense_rank() over (order by salary desc) as rnk 
+
+from employee) abc
+where abc.rnk = 2)
+AS SecondHighestSalary;
