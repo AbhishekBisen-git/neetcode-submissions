@@ -1,5 +1,4 @@
-select distinct A.email from 
-(select email , count(*) as 'rn' from person
+select email as Email
+from Person
 group by email
-)A
-where A.rn >1
+having count(*)>1
